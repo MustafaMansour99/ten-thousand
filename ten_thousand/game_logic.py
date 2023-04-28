@@ -1,17 +1,20 @@
 import random
 
-class GameLogic:
-    
+class GameLogic():
     @staticmethod
     def roll_dice(value):
         values = []
         for i in range(value):
             number = random.randint(1,6)
             values.append(number)
-        return values
+        tuples=tuple(values)
+
+        return tuples
     
-    @staticmethod
+    
+    # @staticmethod
     def calculate_score(dice):
+        # roll_dice(2)
         score = 0
 
         dice_set = set(dice)
@@ -101,3 +104,5 @@ class GameLogic:
         if len(pairs) == 3:
             score += 1500
         return score
+if __name__ == "__main__":
+        print(GameLogic.roll_dice(2))
