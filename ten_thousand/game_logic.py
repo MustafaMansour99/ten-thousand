@@ -1,6 +1,9 @@
 import random
 
 class GameLogic():
+    """
+    this function roll the dice between number 1-6
+    """
     @staticmethod
     def roll_dice(value):
         values = []
@@ -11,8 +14,10 @@ class GameLogic():
 
         return tuples
     
-    
-    # @staticmethod
+    """
+    this function to calculate score depend the rules of the game
+    """
+    @staticmethod
     def calculate_score(dice):
         # roll_dice(2)
         score = 0
