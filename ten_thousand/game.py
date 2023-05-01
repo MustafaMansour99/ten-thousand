@@ -4,6 +4,7 @@ from game_logic import GameLogic
 calculater = GameLogic.calculate_score
 
 dice_roller = GameLogic.roll_dice
+cheat= GameLogic.validate_keepers
 
 def play (roller = GameLogic.roll_dice):
 
@@ -23,6 +24,7 @@ def play (roller = GameLogic.roll_dice):
     if input_user == "n":
         end_game()
     if input_user  == 'y':
+        print(f'Starting round 1')
         start_round(round = 1 ,total=0, dice = 6 , point=0)
 
 def end_game ():
@@ -39,24 +41,48 @@ def start_round(round = 1 , total = 0 ,point = 0 , dice = 6):
     this function will start the game once the plyer enterd y 
     '''
     first_roll = dice_roller(dice) # بدي يطبع 6 ارقام بين (1,6 )
-
-
+    
     random_num = ''
     for i in first_roll:
          random_num += str(i)+" "
 
-    print(f'Starting round {round}')
+   
     print(f'Rolling {dice} dice...')
     print(f'*** {random_num}***')
+
+    if calculater(first_roll) == 0:
+              print("****************************************")
+              print("**        Zilch!!! Round over         **")
+              print("****************************************")
+              print(f"You banked 0 points in round {round}")
+              print(f"Total score is {total} points")
+              round +=1
+              print(f'Starting round {round}')
+              point = 0
+              return start_round(round,total,dice=6)
     print('Enter dice to keep, or (q)uit:')
     
-    user_choices = input ('> ')
+    user_choices = input ('> ').replace(" ","")
     if user_choices =='q':
         quit_game(total)
 
     else :
-         dice_to_keep = tuple(int(x) for x in user_choices) # حولناها ل تابل عشان الكالكوليتر بستقبل تابل جواتو ارقام من نوع انتيجر
          
+         dice_to_keep = tuple(int(x) for x in user_choices) # حولناها ل تابل عشان الكالكوليتر بستقبل تابل جواتو ارقام من نوع انتيجر
+         cheat_test =cheat(first_roll,dice_to_keep)
+         while cheat_test ==False:
+              print("Cheater!!! Or possibly made a typo...")
+              print(f'*** {random_num}***')
+              print('Enter dice to keep, or (q)uit:')
+              user_choices = input ('> ').replace(" ","")
+              if user_choices =='q':
+                return quit_game(total)
+              else:
+                   dice_to_keep = tuple(int(x) for x in user_choices)
+                   cheat_test =cheat(first_roll,dice_to_keep)
+
+                 
+
          new_dice = dice - len(dice_to_keep) # we get the dice that we enterd in the function (6) and subtract it from the length of inputs that the plyer enterd (user_choices)
 
 
@@ -88,6 +114,8 @@ def banked_choice(round , total ,point):
      total += point
      print(f'Total score is {total} points')
      round +=1
+     print(f'Starting round {round}')
+
      start_round(round,total)
       
 
