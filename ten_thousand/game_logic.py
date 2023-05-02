@@ -108,7 +108,7 @@ class GameLogic():
 
             
         if len(pairs) == 3:
-            score += 1500
+            score = 1500
         return score
     @staticmethod
     def validate_keepers(roll,keeper):
@@ -121,11 +121,19 @@ class GameLogic():
              return False
     @staticmethod
     def get_scorers(t):
-      listt =[]
-      for  i in t:
-        if(GameLogic.calculate_score((i,))!=0):
-          listt.append(i)
-      tt = tuple(listt)
+      calu1 = GameLogic.calculate_score(t)
+      arr=[]
+      listt =list(t)
+      for i,val in enumerate(listt):
+          listt.pop(i)
+          calu2 = GameLogic.calculate_score(listt)
+          if calu1 != calu2:
+            arr.append(val)
+            listt.insert(i,val)
+          else:
+              listt.insert(i,val)
+                
+      tt = tuple(arr)
       return tt 
 if __name__ == "__main__":
         print(GameLogic.roll_dice(2))
