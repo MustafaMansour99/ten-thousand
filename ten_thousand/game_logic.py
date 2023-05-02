@@ -110,6 +110,9 @@ class GameLogic():
         if len(pairs) == 3:
             score = 1500
         return score
+    """
+    to check between 2 tuple depende on test file  
+    """
     @staticmethod
     def validate_keepers(roll,keeper):
         roll_counter = Counter(roll)
