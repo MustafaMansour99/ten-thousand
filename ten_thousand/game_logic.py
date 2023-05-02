@@ -1,4 +1,5 @@
 import random
+from collections import Counter
 
 class GameLogic():
     """
@@ -19,7 +20,7 @@ class GameLogic():
     """
     @staticmethod
     def calculate_score(dice):
-        # roll_dice(2)
+        
         score = 0
 
         dice_set = set(dice)
@@ -107,7 +108,35 @@ class GameLogic():
 
             
         if len(pairs) == 3:
-            score += 1500
+            score = 1500
         return score
+    """
+    to check between 2 tuple depende on test file  
+    """
+    @staticmethod
+    def validate_keepers(roll,keeper):
+        roll_counter = Counter(roll)
+        keeper_counter = Counter(keeper)
+        same = keeper_counter - roll_counter
+        if (len(same)==0):
+            return True
+        else:
+             return False
+    @staticmethod
+    def get_scorers(t):
+      calu1 = GameLogic.calculate_score(t)
+      arr=[]
+      listt =list(t)
+      for i,val in enumerate(listt):
+          listt.pop(i)
+          calu2 = GameLogic.calculate_score(listt)
+          if calu1 != calu2:
+            arr.append(val)
+            listt.insert(i,val)
+          else:
+              listt.insert(i,val)
+                
+      tt = tuple(arr)
+      return tt 
 if __name__ == "__main__":
         print(GameLogic.roll_dice(2))
