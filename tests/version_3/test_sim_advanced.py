@@ -3,7 +3,7 @@ from tests.flo import diff
 from ten_thousand.game import play
 
 
-pytestmark = [pytest.mark.version_3]
+# pytestmark = [pytest.mark.version_3]
 
 
 def test_repeat_roller():

@@ -7,7 +7,7 @@ dice_roller = GameLogic.roll_dice
 cheat= GameLogic.validate_keepers
 scores = GameLogic.get_scorers
 
-def play (roller = GameLogic.roll_dice):
+def play (roller = GameLogic.roll_dice,num_rounds=15):
 
     """
     this function starts the game when called
@@ -26,7 +26,7 @@ def play (roller = GameLogic.roll_dice):
         end_game()
     if input_user  == 'y':
         print(f'Starting round 1')
-        start_round(round = 1 ,total=0, dice = 6 , point=0)
+        start_round(num_rounds,round = 1 ,total=0,  point=0, dice = 6)
 
 def end_game ():
         """
@@ -37,7 +37,8 @@ def end_game ():
 
 
 
-def start_round(round = 1 , total = 0 ,point = 0 , dice = 6):
+def start_round(num_rounds,round = 1 , total = 0 ,point = 0 , dice = 6):
+   
     '''
     this function will start the game once the plyer enterd y 
     '''
@@ -59,10 +60,12 @@ def start_round(round = 1 , total = 0 ,point = 0 , dice = 6):
               print("****************************************")
               print(f"You banked 0 points in round {round}")
               print(f"Total score is {total} points")
+              if round == num_rounds:
+                 return quit_game(total)
               round +=1
               print(f'Starting round {round}')
               point = 0
-              return start_round(round,total,dice=6)
+              return start_round(num_rounds,round,total,point,dice=6)
     print('Enter dice to keep, or (q)uit:')
     user_choices = input ('> ').replace(" ","")
 
@@ -92,10 +95,12 @@ def start_round(round = 1 , total = 0 ,point = 0 , dice = 6):
                  
 
          new_dice = dice - len(dice_to_keep) # we get the dice that we enterd in the function (6) and subtract it from the length of inputs that the plyer enterd (user_choices)
+
+
          point += calculater(dice_to_keep) # point was 0 so we should add the points regarding the input that the users entered (using calculate score function)
 
          if len(hot_dice) == 6:
-              return hot_dice2(round,total,point,new_dice)
+              return hot_dice2(num_rounds,round,total,point,new_dice)
 
 
          print(f'You have {point} unbanked points and {new_dice} dice remaining')
@@ -106,27 +111,29 @@ def start_round(round = 1 , total = 0 ,point = 0 , dice = 6):
              quit_game(total)
 
          if user_choices =='b':
-              banked_choice(round , total ,point)
+              banked_choice(num_rounds,round , total ,point)
          if user_choices == 'r':
              if new_dice > 0 :
-                start_round(round , total ,point,new_dice)
+                start_round(num_rounds ,round , total ,point,new_dice)
              else :
                   round +=1
                   print('you dont have any more dices play again')
-                  start_round(round,total,point,dice=6)   
+                  start_round(num_rounds,round,total,point,dice=6)   
            
 
-def banked_choice(round , total ,point):
+def banked_choice(num_rounds,round , total ,point):
      '''
      will banked the total score 
      '''
      print(f'You banked {point} points in round {round}')
      total += point
      print(f'Total score is {total} points')
+     if round == num_rounds:
+         return quit_game(total)
      round +=1
      print(f'Starting round {round}')
 
-     start_round(round,total)
+     start_round(num_rounds,round,total)
       
 
 def quit_game(total):
@@ -137,7 +144,7 @@ def quit_game(total):
 """
 this function hot dice implement in the first game when the rool dice give six digit all this give me score
 """
-def hot_dice2(round,total,point,new_dice):
+def hot_dice2(num_rounds,round,total,point,new_dice):
      print(f'You have {point} unbanked points and 6 dice remaining')
      print('(r)oll again, (b)ank your points or (q)uit:')
      user_choices = input ('> ')
@@ -146,12 +153,12 @@ def hot_dice2(round,total,point,new_dice):
         quit_game(total)
 
      if user_choices =='b':
-            banked_choice(round , total ,point)
+            banked_choice(num_rounds,round , total ,point)
      if user_choices == 'r':
         if new_dice > 0 :
-            start_round(round , total ,point,new_dice)
+            start_round(num_rounds,round , total ,point,new_dice)
         else :
-            start_round(round,total,point,dice=6)
+            start_round(num_rounds,round,total,point,dice=6)
 
 
 
