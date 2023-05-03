@@ -139,6 +139,9 @@ class NervousNellie(BaseBot):
 
 class YourBot(BaseBot):
     def _roll_bank_or_quit(self):
+        """
+        My bot do what i want
+        """
         """your logic here"""
         if self.unbanked_points>50:
             return "b"
